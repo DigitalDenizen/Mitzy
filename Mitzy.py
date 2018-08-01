@@ -1,3 +1,4 @@
+import tkinter as tk
 from tkinter import simpledialog
 
 
@@ -59,9 +60,9 @@ def createWebPartCodeBehind(title):
     f.write("}\n")
     f.close()
 
-
+application_window = tk.Tk()
 def textInput(text, prompt):
-    return simpledialog.askstring(text, prompt)
+    return simpledialog.askstring(text, prompt, parent=application_window)
 
 
 text = textInput("Title", "Please enter title:")
