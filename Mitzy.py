@@ -5,7 +5,7 @@ from tkinter.simpledialog import askstring
 
 
 def createWebPartTemplate(title):
-    f= open("../" + title + ".ascx","w+")
+    f= open(title + ".ascx","w+")
     f.write("<%@ Control Language=\"C#\" AutoEventWireup=\"true\" Inherits=\"CMSWebParts_AFSI_" + title + "\"  CodeBehind=\"~/CMSWebParts/AFSI/" + title + ".ascx.cs\" %>\n")
     f.write("<asp:PlaceHolder runat=\"server\" id=\"plcWrapper\">\n")
     f.write("   <!-- Paste your html here! -->\n")
@@ -14,7 +14,7 @@ def createWebPartTemplate(title):
 
 
 def createWebPartCodeBehind(title, varList):
-    f= open("../" + title + ".ascx.cs","w+")
+    f= open(title + ".ascx.cs","w+")
     f.write("using System;\n")
     f.write("using System.Data;\n")
     f.write("using System.Collections;\n")
@@ -30,7 +30,7 @@ def createWebPartCodeBehind(title, varList):
     f.write("    #region \"Properties\"\n")
     f.write("\n")
     for i in range(0, len(varList)):
-        f.write("    protected string " + varList[i] + "\n")
+        f.write("    protected string m" + varList[i] + "\n")
 
     f.write("\n\n")
 
@@ -94,7 +94,7 @@ def createWebPartCodeBehind(title, varList):
 
 
 def createWebPartDesign(title):
-    f= open("../" + title + ".ascx.designer.cs","w+")
+    f= open(title + ".ascx.designer.cs","w+")
     f.write("public partial class CMSWebParts_AFSI_" + title + " {\n")
     f.write("   protected global::System.Web.UI.WebControls.PlaceHolder plcWrapper;\n")
     f.write("}")
@@ -113,7 +113,11 @@ class Mitzy(Frame):
         while addVar == True:
             str = self.ask_for_a_variable(varString)
             varList.append(str)
-            varString = varString + ", " + str
+            if len(varList) == 1:
+                varString = varString + str
+            else:
+                varString = varString + ", " + str
+
             addVar = self.ask_add_more(varString)
 
         createWebPartTemplate(title)
@@ -122,7 +126,7 @@ class Mitzy(Frame):
         showinfo('YAY!', 'Code has been farted!')
 
     def ask_for_webpart(self):
-        str = askstring('Mitzy\'s Code Fart', 'Whats the title of your webpart?\n==1===0=====0==1=====1===== _ __/`\/ \n=======1====1===0====0====/\' ( _ (^\' \n==0======1====0====1======= /\'| `>\ ')
+        str = askstring('Mitzy\'s Code Fart', 'Whats the title of your webpart?\n===================================')
         return str
 
     def ask_for_a_variable(self, varList):
@@ -138,4 +142,5 @@ class Mitzy(Frame):
 
 
 if __name__ == '__main__':
-    Mitzy().mainloop()
+    root = tk.Tk()
+    Mitzy()
