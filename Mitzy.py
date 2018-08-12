@@ -1,10 +1,37 @@
-import tkinter as tk
 from tkinter import *
-from tkinter.messagebox import askquestion, showinfo
-from tkinter.simpledialog import askstring
 
 
-def createWebPartTemplate(title):
+class Mitzy:
+    """Mitzy creates a window that asks for title and property names and uses that to create a web part"""
+    def __init__(self, master):
+        frame = Frame(master)
+        frame.pack(fill=None, expand=False)
+        middle_frame = Frame(master)
+        middle_frame.pack()
+        app_title = Label(frame, text="Welcome to Mitzy's Web Part Creator!", bg="bisque")
+        app_title.pack(side=LEFT)
+        wp_label = Label(middle_frame, text="Web Part Name: ", bg="bisque")
+        wp_label.pack(side=LEFT)
+        wp_title_entry = Entry(middle_frame, text="What is the name of your Web Part?: ")
+        wp_title_entry.pack(side=LEFT)
+        bottom_frame = Frame(master)
+        bottom_frame.pack(side=BOTTOM)
+        wp_add_prop = Button(bottom_frame, text="Add Property", command=self.add_property(master))
+        wp_add_prop.pack(side=LEFT)
+
+    @staticmethod
+    def add_property(master):
+        """Displays a text field to add a property"""
+        new_frame = Frame(master)
+        new_frame.pack()
+        button_title = Label(new_frame, text="Web Part Name: ")
+
+        new_button = Entry
+
+
+#  Creates The Actual Files
+# ==========================
+def create_web_part_template(title):
     f= open(title + ".ascx","w+")
     f.write("<%@ Control Language=\"C#\" AutoEventWireup=\"true\" Inherits=\"CMSWebParts_AFSI_" + title + "\"  CodeBehind=\"~/CMSWebParts/AFSI/" + title + ".ascx.cs\" %>\n")
     f.write("<asp:PlaceHolder runat=\"server\" id=\"plcWrapper\">\n")
@@ -13,7 +40,7 @@ def createWebPartTemplate(title):
     f.close()
 
 
-def createWebPartCodeBehind(title, varList):
+def create_web_part_code_behind(title, varList):
     f= open(title + ".ascx.cs","w+")
     f.write("using System;\n")
     f.write("using System.Data;\n")
@@ -93,7 +120,7 @@ def createWebPartCodeBehind(title, varList):
     f.close()
 
 
-def createWebPartDesign(title):
+def create_web_part_design(title):
     f= open(title + ".ascx.designer.cs","w+")
     f.write("public partial class CMSWebParts_AFSI_" + title + " {\n")
     f.write("   protected global::System.Web.UI.WebControls.PlaceHolder plcWrapper;\n")
@@ -101,46 +128,12 @@ def createWebPartDesign(title):
     f.close()
 
 
-class Mitzy(Frame):
-    def __init__(self, master=None, cnf={}, **kw):
-        super().__init__(master, cnf, **kw)
-        self.pack()
-        varList = []
-        varString = ""
-        title = self.ask_for_webpart()
-        addVar = True
+# =============================
+#  End of File Creation Region
 
-        while addVar == True:
-            str = self.ask_for_a_variable(varString)
-            varList.append(str)
-            if len(varList) == 1:
-                varString = varString + str
-            else:
-                varString = varString + ", " + str
-
-            addVar = self.ask_add_more(varString)
-
-        createWebPartTemplate(title)
-        createWebPartCodeBehind(title, varList)
-        createWebPartDesign(title)
-        showinfo('YAY!', 'Code has been farted!')
-
-    def ask_for_webpart(self):
-        str = askstring('Mitzy\'s Code Fart', 'Whats the title of your webpart?\n===================================')
-        return str
-
-    def ask_for_a_variable(self, varList):
-        str = askstring('Mitzy\'s Code Fart', 'Do you want to add a variable [Variables added: ' + varList + ']')
-        return str
-
-    def ask_add_more(self, varList):
-        str = askquestion('Mitzy\'s Code Fart', 'Do you want to add more?[Variables added: ' + varList + ']')
-        if str == 'no':
-            return False
-        else:
-            return True
-
-
-if __name__ == '__main__':
-    root = tk.Tk()
-    Mitzy()
+root = Tk()
+root.title("Mitzy")
+root.configure(bg="bisque")
+root.geometry("300x150")
+m = Mitzy(root)
+root.mainloop()
