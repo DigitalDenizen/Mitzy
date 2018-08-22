@@ -30,7 +30,7 @@ def createWebPartCodeBehind(title, varList):
     f.write("    #region \"Properties\"\n")
     f.write("\n")
     for i in range(0, len(varList)):
-        f.write("    protected string m" + varList[i] + "\n")
+        f.write("    protected string m" + varList[i] + ";\n")
 
     f.write("\n\n")
 
@@ -44,7 +44,7 @@ def createWebPartCodeBehind(title, varList):
         f.write("       set\n")
         f.write("       {\n")
         f.write("           this.SetValue(\"" + varList[i] + "\", value);\n")
-        f.write("           m" + varList[i] + " = value\n")
+        f.write("           m" + varList[i] + " = value;\n")
         f.write("       }\n")
         f.write("    }\n")
         f.write("\n")
